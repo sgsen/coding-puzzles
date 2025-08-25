@@ -6,15 +6,15 @@ import timeit
 """
 
 
-def fib(n: int) -> int:
+def ogfib(n: int) -> int:
     if n <= 2:
         return 1
     else:
-        fibsum: int = fib(n - 1) + fib(n - 2)
+        fibsum: int = ogfib(n - 1) + ogfib(n - 2)
     return fibsum
 
 
-def superfibfail(n: int) -> int:
+def memofibfail(n: int) -> int:
     fibsums: dict[int, int] = {1: 1, 2: 1}
 
     def minifib(n: int = n, fibsums: dict[int, int] = {}) -> dict[int, int]:
@@ -31,42 +31,49 @@ def superfibfail(n: int) -> int:
     return result
 
 
-def superfib(n: int, memo: dict[int, int] = {}) -> int:
+def memofib(n: int, memo: dict[int, int] = {}) -> int:
     if n in memo:
         return memo[n]
     elif n <= 2:
         return 1
     else:
-        memo[n] = superfib(n - 1, memo) + superfib(n - 2, memo)
+        memo[n] = memofib(n - 1, memo) + memofib(n - 2, memo)
         return memo[n]
 
 
+def sumfib(n: int) -> int:
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
+
+
 def test1():
-    result = fib(10)
+    result = sumfib(10)
     expected = 55
     print(f"Result: {result}, Expected: {expected}")
-    # assert result == expected
+    assert result == expected
 
 
 def test2():
-    result = fib(20)
-    expected = 6765
+    result = sumfib(50)
+    expected = 12586269025
     print(f"Result: {result}, Expected: {expected}")
-    # assert result == expected
+    assert result == expected
 
 
 def test3():
-    result = superfib(10)
+    result = memofib(10)
     expected = 55
     print(f"Result: {result}, Expected: {expected}")
-    # assert result == expected
+    assert result == expected
 
 
 def test4():
-    result = superfib(20)
-    expected = 6765
+    result = memofib(50)
+    expected = 12586269025
     print(f"Result: {result}, Expected: {expected}")
-    # assert result == expected
+    assert result == expected
 
 
 if __name__ == "__main__":
