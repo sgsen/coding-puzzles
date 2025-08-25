@@ -14,7 +14,7 @@ def fib(n: int) -> int:
     return fibsum
 
 
-def superfib(n: int) -> int:
+def superfibfail(n: int) -> int:
     fibsums: dict[int, int] = {1: 1, 2: 1}
 
     def minifib(n: int = n, fibsums: dict[int, int] = {}) -> dict[int, int]:
@@ -29,6 +29,16 @@ def superfib(n: int) -> int:
     fibsums = minifib(n, fibsums)
     result: int = fibsums[5]
     return result
+
+
+def superfib(n: int, memo: dict[int, int] = {}) -> int:
+    if n in memo:
+        return memo[n]
+    elif n <= 2:
+        return 1
+    else:
+        memo[n] = superfib(n - 1, memo) + superfib(n - 2, memo)
+        return memo[n]
 
 
 def test1():
